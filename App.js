@@ -3,10 +3,7 @@ import { StyleSheet, Text, View, Image, Dimensions } from 'react-native';
 import { Button } from 'react-native';
 import { Picker, ImageBackground, TouchableHighlight } from 'react-native';
 import { FlatList, Alert, Platform, ActivityIndicator } from 'react-native';
-import { Icon } from 'react-native-elements'
-
-
-
+import { Icon } from 'react-native-elements';
 
 
 export default class App extends React.Component {
@@ -128,46 +125,60 @@ export default class App extends React.Component {
           />
         </View>
       </View>
+    const picker =
+      <Picker
+        selectedValue={this.state.movieGenre}
+        style={{
+          height: 35,
+          width: 200,
+          color: "white",
 
+        }}
+
+        itemStyle={{ fontSize: 33, fontWeight: 'bold' }}
+        mode="dropdown"
+        alignItems='top'
+        onValueChange={(itemValue) =>
+          this.setState({ movieGenre: itemValue })
+        }
+      >
+        <Picker.Item label="Action" value="28" />
+        <Picker.Item label="Adventure" value="12" />
+        <Picker.Item label="Animation" value="16" />
+        <Picker.Item label="Comedy" value="35" />
+        <Picker.Item label="Crime" value="80" />
+        <Picker.Item label="Documentary" value="99" />
+        <Picker.Item label="Drama" value="18" />
+        <Picker.Item label="Family" value="10751" />
+        <Picker.Item label="Fantasy" value="14" />
+        <Picker.Item label="History" value="36" />
+        <Picker.Item label="Horror" value="27" />
+        <Picker.Item label="Music" value="10402" />
+        <Picker.Item label="Mystery" value="9648" />
+        <Picker.Item label="Romance" value="10749" />
+        <Picker.Item label="Science Fiction" value="878" />
+        <Picker.Item label="Thriller" value="53" />
+        <Picker.Item label="War" value="10752" />
+
+      </Picker>
     const initialScreen =
       <ImageBackground source={this.poster} style={{ width: '100%', height: '100%' }}>
         <View style={styles.container}>
           <View style={styles.body}>
             <View style={styles.picker}>
               {/* TOP */}
-
-              <Picker
-                selectedValue={this.state.movieGenre}
-                style={{ height: 50, width: 200 }}
-                itemStyle={{ fontSize: 33, fontWeight: 'bold' }}
-                mode="dropdown"
-                alignItems='top'
-                onValueChange={(itemValue) =>
-                  this.setState({ movieGenre: itemValue })
-                }
-              >
-                <Picker.Item label="Action" value="28" />
-                <Picker.Item label="Adventure" value="12" />
-                <Picker.Item label="Animation" value="16" />
-                <Picker.Item label="Comedy" value="35" />
-                <Picker.Item label="Crime" value="80" />
-                <Picker.Item label="Documentary" value="99" />
-                <Picker.Item label="Drama" value="18" />
-                <Picker.Item label="Family" value="10751" />
-                <Picker.Item label="Fantasy" value="14" />
-                <Picker.Item label="History" value="36" />
-                <Picker.Item label="Horror" value="27" />
-                <Picker.Item label="Music" value="10402" />
-                <Picker.Item label="Mystery" value="9648" />
-                <Picker.Item label="Romance" value="10749" />
-                <Picker.Item label="Science Fiction" value="878" />
-                <Picker.Item label="Thriller" value="53" />
-                <Picker.Item label="War" value="10752" />
-
-              </Picker>
+              {Platform.OS == 'ios' ? picker : <View></View>
+              }
             </View>
             <View>
               {/* CENTER */}
+              <View style=
+                {Platform.OS === 'ios' ? {} :
+                  { backgroundColor: 'rgba(0,0,0, .55)', borderWidth: 1.5, borderColor: 'black' }
+                }>
+                {Platform.OS == 'android' ? picker : <View></View>
+                }
+              </View>
               <View
 
                 style={styles.buttonContainer}>
@@ -220,7 +231,7 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     backgroundColor: 'black',
-
+    marginTop: 30
   },
   actindicator: {
     // backgroundColor: "yellow",
