@@ -4,27 +4,24 @@ import { Button } from 'react-native';
 import { Picker, ImageBackground, TouchableHighlight } from 'react-native';
 import { FlatList, Alert, Platform, ActivityIndicator } from 'react-native';
 import { Icon } from 'react-native-elements';
-
+import { SplashScreen } from 'expo';
 
 export default class App extends React.Component {
-
-
   constructor(props) {
     super(props);
+
     let { height, width } = Dimensions.get('window');
     this.state = {
-      movieGenre: "28",
+      movieGenre: "",
       animating: false,
       movies: [],
       deviceWidth: width,
       screen: "initialScreen",
-      modalVisible: false,
       movie: null
     };
 
     this.posters = [
       require(`./assets/posters/0.jpg`),
-      require(`./assets/posters/1.jpg`),
       require(`./assets/posters/3.jpg`),
       require(`./assets/posters/4.jpg`),
       require(`./assets/posters/5.jpg`),
@@ -32,7 +29,6 @@ export default class App extends React.Component {
       require(`./assets/posters/7.jpg`),
       require(`./assets/posters/8.jpg`),
       require(`./assets/posters/10.jpg`),
-      require(`./assets/posters/12.jpg`),
       require(`./assets/posters/13.jpg`),
       require(`./assets/posters/15.jpg`),
       require(`./assets/posters/16.jpg`),
@@ -51,17 +47,16 @@ export default class App extends React.Component {
 
   async getMoviesFromApi() {
     try {
-      let page = Math.floor(Math.random() * 17)
+      let page = Math.floor(Math.random() * 15)
       if (page == 0) {
         page = 1
       }
-      let url = `https://api.themoviedb.org/3/discover/movie?with_genres=${this.state.movieGenre}&page=${page}&api_key=8df1ff267409edc4e0275609debe6fde`
+      let url = `https://api.themoviedb.org/3/discover/movie?with_genres=${this.state.movieGenre}&page=${page}&include_adult=false&api_key=8df1ff267409edc4e0275609debe6fde`
       console.log(url)
       let response = await fetch(
         url
       );
       let responseJson = await response.json();
-
       let movies = responseJson.results.filter(result => !(result.poster_path == null))
 
       this.setState({ movies: movies, animating: false, screen: "movieScreen" })
@@ -71,22 +66,26 @@ export default class App extends React.Component {
   }
 
   render() {
+    SplashScreen.preventAutoHide()
+    SplashScreen.hide()
     const moviesScreen =
       <View style={styles.movieList}>
-
         <TouchableHighlight
           underlayColor='#fff'
           onPress={() => {
             this.setState({ screen: "initialScreen" })
           }}>
           <View style={styles.backbutton}>
-            <Icon size={18} containerStyle={{ alignSelf: "flex-start" }}
+            <Icon
+              size={18}
+              color="white"
+              containerStyle={{ alignSelf: "flex-start" }}
               name='chevron-left' />
-            <Text>GO BACK</Text>
+            <Text style={{ color: "white" }}>BACK</Text>
 
           </View>
         </TouchableHighlight>
-        <View style={{ marginTop: 15 }}>
+        <View style={{ marginTop: 5 }}>
           <FlatList
             data={this.state.movies}
             keyExtractor={(item, index) => item.id.toString()}
@@ -99,12 +98,12 @@ export default class App extends React.Component {
                     underlayColor='#fff'
                     onPress={() => {
 
-                      this.setState({ modalVisible: false, movie: item });
+                      this.setState({ movie: item });
                       Alert.alert(
                         item.title,
                         item.overview,
                         [
-                          { text: 'BACK', onPress: () => console.log('OK Pressed') },
+                          { text: 'BACK' },
                         ],
                         { cancelable: true },
                       );
@@ -131,10 +130,8 @@ export default class App extends React.Component {
         style={{
           height: 35,
           width: 200,
-          color: "white",
-
+          color: "white"
         }}
-
         itemStyle={{ fontSize: 33, fontWeight: 'bold' }}
         mode="dropdown"
         alignItems='top'
@@ -142,6 +139,7 @@ export default class App extends React.Component {
           this.setState({ movieGenre: itemValue })
         }
       >
+        <Picker.Item label="Choose genre" value="" />
         <Picker.Item label="Action" value="28" />
         <Picker.Item label="Adventure" value="12" />
         <Picker.Item label="Animation" value="16" />
@@ -179,11 +177,8 @@ export default class App extends React.Component {
                 {Platform.OS == 'android' ? picker : <View></View>
                 }
               </View>
-              <View
-
-                style={styles.buttonContainer}>
+              <View style={styles.buttonContainer}>
                 <Button
-
                   onPress={() => {
                     this.setState({ animating: true })
                     this.getMoviesFromApi()
@@ -211,22 +206,15 @@ export default class App extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'rgba(255,255,255, .25)',
-    // alignItems: 'center',
-    // flexDirection: 'column',
-    // justifyContent: 'space-between',
-
+    backgroundColor: 'rgba(255,255,255, .25)'
   },
   body: {
-    // backgroundColor: "green",
     flex: 1,
     alignItems: 'center',
     flexDirection: 'column',
-    // height: 400,
     justifyContent: 'space-between'
   },
   picker: {
-    // backgroundColor: "blue",
     marginTop: 100
   },
   buttonContainer: {
@@ -234,35 +222,38 @@ const styles = StyleSheet.create({
     marginTop: 30
   },
   actindicator: {
-    // backgroundColor: "yellow",
     color: 'blue',
     marginTop: 50
   },
   textstitle: {
     textAlign: 'center',
-    fontWeight: 'bold',
+    fontWeight: '300',
     fontSize: 18,
     marginTop: 10,
     marginBottom: 3,
-    lineHeight: 30
+    paddingHorizontal: 20,
+    lineHeight: 30,
+    color: "white"
   },
   movieList: {
     flexDirection: 'column',
     justifyContent: 'center',
-    marginTop: 50,
+    backgroundColor: "black"
   },
   backbutton: {
     alignItems: 'stretch',
     flexDirection: 'row',
     justifyContent: 'flex-start',
-    marginTop: 15
+    marginTop: 90,
+
   },
   textsyear: {
     textAlign: 'center',
-    fontWeight: 'bold',
+    fontWeight: '300',
     fontSize: 13,
     lineHeight: 13,
-    marginBottom: 10
+    marginBottom: 10,
+    color: "white"
 
   },
   movieOverview: {

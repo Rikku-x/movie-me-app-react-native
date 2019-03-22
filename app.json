@@ -1,20 +1,26 @@
 {
   "expo": {
-    "name": "movie me",
-    "slug": "movie-filter",
+    "name": "MovieMe",
+    "slug": "movie-me",
+    "icon": "./assets/icon2.png",
     "privacy": "public",
     "sdkVersion": "32.0.0",
     "platforms": [
       "ios",
       "android"
     ],
+    "ios": {
+      "bundleIdentifier": "com.rikkux.movieme"
+    },
+    "android": {
+      "package": "com.rikkux.movieme"
+    },
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#000000"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
