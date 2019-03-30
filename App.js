@@ -16,8 +16,7 @@ export default class App extends React.Component {
       animating: false,
       movies: [],
       deviceWidth: width,
-      screen: "initialScreen",
-      movie: null
+      screen: "initialScreen"
     };
 
     this.posters = [
@@ -41,13 +40,16 @@ export default class App extends React.Component {
     this.poster = this.posters[posternumber];
   }
 
-  posterURL(path) {
-    return "http://image.tmdb.org/t/p/w500" + path;
-  }
-
   onButtonClick = () => {
     this.setState({ animating: true });
     this.getMoviesFromApi();
+  };
+
+  onPress = () => {
+    this.setState({ screen: "initialScreen" });
+  };
+  onValueChange = itemValue => {
+    this.setState({ movieGenre: itemValue });
   };
 
   async getMoviesFromApi() {
@@ -86,9 +88,14 @@ export default class App extends React.Component {
         animating={this.state.animating}
         poster={this.poster}
         onButtonClick={this.onButtonClick}
+        onValueChange={this.onValueChange}
       />
     ) : (
-      <MoviesScreen />
+      <MoviesScreen
+        movies={this.state.movies}
+        deviceWidth={this.state.deviceWidth}
+        onPress={this.onPress}
+      />
     );
   }
 }
