@@ -1,6 +1,5 @@
 {
   "expo": {
-    "author": "Rikku-x",
     "description": "App lists movies by genre",
     "name": "MovieMe",
     "slug": "movie-me",
