@@ -1,15 +1,15 @@
 {
   "expo": {
+    "author": "Rikku-x",
+    "description": "App lists movies by genre",
     "name": "MovieMe",
     "slug": "movie-me",
     "icon": "./assets/icon2.png",
     "privacy": "public",
     "sdkVersion": "32.0.0",
-    "platforms": [
-      "ios",
-      "android"
-    ],
+    "platforms": ["ios", "android"],
     "ios": {
+      "supportsTablet": true,
       "bundleIdentifier": "com.rikkux.movieme"
     },
     "android": {
@@ -25,11 +25,6 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
-    "ios": {
-      "supportsTablet": true
-    }
+    "assetBundlePatterns": ["**/*"]
   }
 }
