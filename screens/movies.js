@@ -1,14 +1,37 @@
 import React from "react";
 import { Text, View, Image } from "react-native";
 import { TouchableHighlight } from "react-native";
+import { Share, Button } from "react-native";
 import { FlatList, Alert } from "react-native";
 import { Icon } from "react-native-elements";
 import { styles } from "./../styles.js";
 
 export class MoviesScreen extends React.Component {
+  onShare = async () => {
+    try {
+      const result = await Share.share({
+        message:
+          "React Native | A framework for building native apps using React"
+      });
+
+      if (result.action === Share.sharedAction) {
+        if (result.activityType) {
+          // shared with activity type of result.activityType
+        } else {
+          // shared
+        }
+      } else if (result.action === Share.dismissedAction) {
+        // dismissed
+      }
+    } catch (error) {
+      alert(error.message);
+    }
+  };
+
   posterURL(path) {
     return "http://image.tmdb.org/t/p/w500" + path;
   }
+
   render() {
     return (
       <View style={styles.movieList}>
@@ -34,13 +57,17 @@ export class MoviesScreen extends React.Component {
                   <Text style={styles.textsyear}>
                     {item.release_date.slice(0, 4)}
                   </Text>
+
                   <TouchableHighlight
                     underlayColor="#fff"
                     onPress={() => {
                       Alert.alert(
                         item.title,
                         item.overview,
-                        [{ text: "BACK" }],
+                        [
+                          { text: "Close" },
+                          { text: "Share", onPress: this.onShare }
+                        ],
                         { cancelable: true }
                       );
                     }}
